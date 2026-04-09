@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TSKP - Standardized Work</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body data-page="tskp">
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand-block">
+        <p class="brand-caption">Lean Manufacturing</p>
+        <h1>Standardized Work</h1>
+      </div>
+
+      <nav class="menu">
+        <a href="../index.html">Dashboard</a>
+        <a href="observasi.html">Lembar Observasi</a>
+        <a href="tskk.html">TSKK</a>
+        <a href="tsk.html">TSK</a>
+        <a href="tskp.html">TSKP</a>
+        <a href="yamazumi.html">Yamazumi</a>
+      </nav>
+
+      <div class="sidebar-actions">
+        <button id="exportJsonBtn" class="btn">Export JSON</button>
+        <label class="btn file-btn" for="importJsonInput">
+          Import JSON
+          <input id="importJsonInput" type="file" accept=".json,application/json">
+        </label>
+        <button id="resetDataBtn" class="btn danger">Reset Data</button>
+      </div>
+    </aside>
+
+    <main class="content">
+      <header class="page-header">
+        <h2>Tabel Standar Kapasitas Produksi (TSKP)</h2>
+        <p>Hitung kapasitas line dan identifikasi bottleneck dari data observasi.</p>
+      </header>
+
+      <p id="globalMessage" class="message" aria-live="polite"></p>
+
+      <section class="card">
+        <div class="table-toolbar">
+          <button id="exportTskpCsvBtn" class="btn">Export Excel (.xlsx)</button>
+        </div>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Proses</th>
+                <th>Operator</th>
+                <th>Cycle Time (detik)</th>
+                <th>Man Power</th>
+                <th>Kapasitas Proses (unit/jam)</th>
+              </tr>
+            </thead>
+            <tbody id="tskpBody">
+              <tr>
+                <td colspan="5" class="placeholder">Belum ada data observasi.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="card-grid">
+        <article class="card stat-card">
+          <h3>Total Man Power</h3>
+          <p id="tskpTotalManpower" class="stat-value">0</p>
+        </article>
+        <article class="card stat-card">
+          <h3>Line Capacity</h3>
+          <p id="tskpLineCapacity" class="stat-value">0 unit/jam</p>
+        </article>
+        <article class="card stat-card">
+          <h3>Bottleneck</h3>
+          <p id="tskpBottleneck" class="stat-value">Belum ada data</p>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <script src="../js/storage.js"></script>
+  <script src="../js/chart.js"></script>
+  <script src="../js/app.js"></script>
+</body>
+</html>

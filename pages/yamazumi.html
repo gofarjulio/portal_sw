@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yamazumi - Standardized Work</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body data-page="yamazumi">
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand-block">
+        <p class="brand-caption">Lean Manufacturing</p>
+        <h1>Standardized Work</h1>
+      </div>
+
+      <nav class="menu">
+        <a href="../index.html">Dashboard</a>
+        <a href="observasi.html">Lembar Observasi</a>
+        <a href="tskk.html">TSKK</a>
+        <a href="tsk.html">TSK</a>
+        <a href="tskp.html">TSKP</a>
+        <a href="yamazumi.html">Yamazumi</a>
+      </nav>
+
+      <div class="sidebar-actions">
+        <button id="exportJsonBtn" class="btn">Export JSON</button>
+        <label class="btn file-btn" for="importJsonInput">
+          Import JSON
+          <input id="importJsonInput" type="file" accept=".json,application/json">
+        </label>
+        <button id="resetDataBtn" class="btn danger">Reset Data</button>
+      </div>
+    </aside>
+
+    <main class="content">
+      <header class="page-header">
+        <h2>Yamazumi Chart</h2>
+        <p>Bandingkan beban kerja antar operator atau proses dengan garis takt time.</p>
+      </header>
+
+      <p id="globalMessage" class="message" aria-live="polite"></p>
+
+      <section class="card">
+        <div class="form-inline">
+          <label>
+            Mode
+            <select id="yamazumiMode">
+              <option value="operator">Per Operator</option>
+              <option value="process">Per Proses</option>
+            </select>
+          </label>
+
+          <label>
+            Takt Time (detik)
+            <input id="yamazumiTaktInput" type="number" min="1" step="1" value="60">
+          </label>
+
+          <button id="refreshYamazumiBtn" class="btn primary">Refresh Chart</button>
+          <button id="exportYamazumiCsvBtn" class="btn">Export Excel (.xlsx)</button>
+        </div>
+
+        <canvas id="yamazumiChart" class="chart-canvas" height="380"></canvas>
+      </section>
+
+      <section class="card">
+        <h3>Detail Beban Kerja</h3>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Nama</th>
+                <th>Beban Kerja (detik)</th>
+                <th>Status terhadap Takt</th>
+              </tr>
+            </thead>
+            <tbody id="yamazumiBody">
+              <tr>
+                <td colspan="3" class="placeholder">Belum ada data observasi.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="../js/storage.js"></script>
+  <script src="../js/chart.js"></script>
+  <script src="../js/app.js"></script>
+</body>
+</html>

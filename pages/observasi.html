@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lembar Observasi - Standardized Work</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body data-page="observasi">
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand-block">
+        <p class="brand-caption">Lean Manufacturing</p>
+        <h1>Standardized Work</h1>
+      </div>
+
+      <nav class="menu">
+        <a href="../index.html">Dashboard</a>
+        <a href="observasi.html">Lembar Observasi</a>
+        <a href="tskk.html">TSKK</a>
+        <a href="tsk.html">TSK</a>
+        <a href="tskp.html">TSKP</a>
+        <a href="yamazumi.html">Yamazumi</a>
+      </nav>
+
+      <div class="sidebar-actions">
+        <button id="exportJsonBtn" class="btn">Export JSON</button>
+        <label class="btn file-btn" for="importJsonInput">
+          Import JSON
+          <input id="importJsonInput" type="file" accept=".json,application/json">
+        </label>
+        <button id="resetDataBtn" class="btn danger">Reset Data</button>
+      </div>
+    </aside>
+
+    <main class="content">
+      <header class="page-header">
+        <h2>Lembar Observasi</h2>
+        <p>Masukkan data elemen kerja dan waktu sample. Data tersimpan otomatis.</p>
+      </header>
+
+      <p id="globalMessage" class="message" aria-live="polite"></p>
+
+      <section class="card">
+        <h3>Input Observasi Baru</h3>
+        <div class="obs-sheet-wrapper">
+          <table class="obs-sheet-table">
+            <tbody>
+              <tr>
+                <td class="obs-logo-cell" rowspan="4">
+                  <img src="../images/CBI_Logo_large1.png" alt="Logo CBI" class="obs-logo-image">
+                  <div class="obs-logo-name">PT. Century Batteries Indonesia</div>
+                </td>
+
+                <td class="obs-title-cell" colspan="2" rowspan="3">LEMBAR OBSERVASI</td>
+
+                <td class="obs-field-label">LINE</td>
+                <td class="obs-field-input">
+                  <input id="lineName" type="text" placeholder="Contoh: Line 1">
+                </td>
+
+                <td class="obs-field-label">TANGGAL</td>
+                <td class="obs-field-input">
+                  <input id="obsTanggal" type="date">
+                </td>
+              </tr>
+
+              <tr>
+                <td class="obs-field-label">PROSES</td>
+                <td class="obs-field-input">
+                  <input id="processName" type="text" placeholder="Contoh: Assembly A">
+                </td>
+
+                <td class="obs-field-label">SHIFT / JAM</td>
+                <td class="obs-field-input">
+                  <input id="shiftJam" type="text" placeholder="Contoh: Shift 1 / 07:00-15:00">
+                </td>
+              </tr>
+
+              <tr>
+                <td class="obs-field-label">TIPE PRODUK</td>
+                <td class="obs-field-input">
+                  <input id="productType" type="text" placeholder="Contoh: NS40Z">
+                </td>
+
+                <td class="obs-field-label">NAMA OBSERVER</td>
+                <td class="obs-field-input">
+                  <input id="observerName" type="text" placeholder="Contoh: Andi">
+                </td>
+              </tr>
+
+              <tr>
+                <td class="obs-field-label">NO FORM</td>
+                <td class="obs-fixed-cell">
+                  <span id="noFormValue" class="obs-fixed-value">Form-ISD-ISD-001</span>
+                </td>
+
+                <td class="obs-field-label">TAKT TIME</td>
+                <td class="obs-field-input">
+                  <input id="taktTimeInput" type="number" min="0" step="0.01" placeholder="Detik">
+                </td>
+
+                <td class="obs-field-label">NAMA OPERATOR</td>
+                <td class="obs-field-input">
+                  <input id="operatorName" type="text" placeholder="Contoh: Budi">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-toolbar">
+          <button id="addObservasiRowBtn" class="btn">Tambah Elemen</button>
+          <button id="clearObservasiDraftBtn" class="btn ghost">Bersihkan Draft</button>
+        </div>
+
+        <div class="table-wrapper obs-entry-table-wrap">
+          <table class="obs-detail-table">
+            <thead>
+              <tr>
+                <th rowspan="2" class="obs-col-no">NO</th>
+                <th rowspan="2" class="obs-col-elemen">Elemen Kerja</th>
+                <th rowspan="2" class="obs-col-kategori obs-divider-right">Kategori</th>
+                <th colspan="10" class="obs-col-sample-group obs-divider-right">Sample</th>
+                <th rowspan="2" class="obs-col-stat">Modus</th>
+                <th rowspan="2" class="obs-col-stat">Min</th>
+                <th rowspan="2" class="obs-col-stat obs-divider-right">Max</th>
+                <th colspan="2" class="obs-col-qty-group obs-divider-right">Qty</th>
+                <th rowspan="2" class="obs-col-ct obs-divider-right">CT<br>(sec/batt)</th>
+                <th rowspan="2" class="obs-col-note">NOTE</th>
+              </tr>
+              <tr>
+                <th class="obs-col-sample">1</th>
+                <th class="obs-col-sample">2</th>
+                <th class="obs-col-sample">3</th>
+                <th class="obs-col-sample">4</th>
+                <th class="obs-col-sample">5</th>
+                <th class="obs-col-sample">6</th>
+                <th class="obs-col-sample">7</th>
+                <th class="obs-col-sample">8</th>
+                <th class="obs-col-sample">9</th>
+                <th class="obs-col-sample obs-divider-right">10</th>
+                <th class="obs-col-qty">Qty</th>
+                <th class="obs-col-unit obs-divider-right">Unit</th>
+              </tr>
+            </thead>
+            <tbody id="observasiRows"></tbody>
+            <tfoot>
+              <tr id="observasiTotalRow"></tr>
+            </tfoot>
+          </table>
+        </div>
+
+        <div class="summary-block">
+          <p>Total Elemen: <strong id="observasiTotalElemen">0</strong></p>
+          <p>Total CT: <strong id="observasiTotalCycle">0</strong> sec/batt</p>
+        </div>
+
+        <button id="saveObservasiBtn" class="btn primary">Simpan Observasi</button>
+      </section>
+
+      <section class="card">
+        <h3>Data Observasi Tersimpan</h3>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Proses</th>
+                <th>Operator</th>
+                <th>Cycle Time</th>
+                <th>Tanggal</th>
+                <th>Status</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="observationListBody">
+              <tr>
+                <td colspan="6" class="placeholder">Belum ada data.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="card hidden" id="savedDetailSection">
+        <div class="card-header">
+          <h3 id="savedDetailTitle">Detail Observasi</h3>
+          <div class="obs-action-group no-print">
+            <button id="detailPrintBtn" class="btn">Print (A4 / PDF)</button>
+            <button id="detailExportXlsxBtn" class="btn">Export Excel (.xlsx)</button>
+          </div>
+        </div>
+
+        <div id="observasiDetailPrintArea" class="obs-print-area">
+          <div class="obs-sheet-wrapper obs-sheet-readonly">
+            <table class="obs-sheet-table">
+              <tbody>
+                <tr>
+                  <td class="obs-logo-cell" rowspan="4">
+                    <img src="../images/CBI_Logo_large1.png" alt="Logo CBI" class="obs-logo-image">
+                    <div class="obs-logo-name">PT. Century Batteries Indonesia</div>
+                  </td>
+
+                  <td class="obs-title-cell" colspan="2" rowspan="3">LEMBAR OBSERVASI</td>
+
+                  <td class="obs-field-label">LINE</td>
+                  <td class="obs-field-input">
+                    <span id="detailLine" class="obs-field-static">-</span>
+                  </td>
+
+                  <td class="obs-field-label">TANGGAL</td>
+                  <td class="obs-field-input">
+                    <span id="detailTanggal" class="obs-field-static">-</span>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td class="obs-field-label">PROSES</td>
+                  <td class="obs-field-input">
+                    <span id="detailProses" class="obs-field-static">-</span>
+                  </td>
+
+                  <td class="obs-field-label">SHIFT / JAM</td>
+                  <td class="obs-field-input">
+                    <span id="detailShift" class="obs-field-static">-</span>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td class="obs-field-label">TIPE PRODUK</td>
+                  <td class="obs-field-input">
+                    <span id="detailProduct" class="obs-field-static">-</span>
+                  </td>
+
+                  <td class="obs-field-label">NAMA OBSERVER</td>
+                  <td class="obs-field-input">
+                    <span id="detailObserver" class="obs-field-static">-</span>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td class="obs-field-label">NO FORM</td>
+                  <td class="obs-fixed-cell">
+                    <span id="detailNoForm" class="obs-fixed-value">Form-ISD-ISD-001</span>
+                  </td>
+
+                  <td class="obs-field-label">TAKT TIME</td>
+                  <td class="obs-field-input">
+                    <span id="detailTakt" class="obs-field-static">-</span>
+                  </td>
+
+                  <td class="obs-field-label">NAMA OPERATOR</td>
+                  <td class="obs-field-input">
+                    <span id="detailOperator" class="obs-field-static">-</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="table-wrapper obs-print-table-wrap">
+            <table class="obs-detail-table">
+              <thead>
+                <tr>
+                  <th rowspan="2" class="obs-col-no">NO</th>
+                  <th rowspan="2" class="obs-col-elemen">Elemen Kerja</th>
+                  <th rowspan="2" class="obs-col-kategori obs-divider-right">Kategori</th>
+                  <th colspan="10" class="obs-col-sample-group obs-divider-right">Sample</th>
+                  <th rowspan="2" class="obs-col-stat">Modus</th>
+                  <th rowspan="2" class="obs-col-stat">Min</th>
+                  <th rowspan="2" class="obs-col-stat obs-divider-right">Max</th>
+                  <th colspan="2" class="obs-col-qty-group obs-divider-right">Qty</th>
+                  <th rowspan="2" class="obs-col-ct obs-divider-right">CT<br>(sec/batt)</th>
+                  <th rowspan="2" class="obs-col-note">NOTE</th>
+                </tr>
+                <tr>
+                  <th class="obs-col-sample">1</th>
+                  <th class="obs-col-sample">2</th>
+                  <th class="obs-col-sample">3</th>
+                  <th class="obs-col-sample">4</th>
+                  <th class="obs-col-sample">5</th>
+                  <th class="obs-col-sample">6</th>
+                  <th class="obs-col-sample">7</th>
+                  <th class="obs-col-sample">8</th>
+                  <th class="obs-col-sample">9</th>
+                  <th class="obs-col-sample obs-divider-right">10</th>
+                  <th class="obs-col-qty">Qty</th>
+                  <th class="obs-col-unit obs-divider-right">Unit</th>
+                </tr>
+              </thead>
+              <tbody id="savedDetailRows">
+                <tr>
+                  <td colspan="20" class="placeholder">Pilih tombol Detail pada data tersimpan.</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr id="savedDetailTotalRow"></tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="../js/storage.js"></script>
+  <script src="../js/chart.js"></script>
+  <script src="../js/app.js"></script>
+</body>
+</html>
